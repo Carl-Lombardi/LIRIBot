@@ -21,25 +21,25 @@ var divider =
 function command(liriCom, input) {
   switch (liriCom) {
     case "concert-this":
-      conInfo(input);
+      concertinfo(input);
       break;
 
     case "spotify-this-song":
-      spotInfo(input);
+      spotifyinfo(input);
       break;
 
     case "movie-this":
-      movInfo(input);
+      movieinfo(input);
       break;
 
     case "do-what-it-says":
-      doThis();
+      dothis();
       break;
   }
 }
 
 // "concert-this" function
-function conInfo(input) {
+function concertinfo(input) {
   var queryUrl =
     "https://rest.bandsintown.com/artists/" +
     input +
@@ -63,7 +63,7 @@ function conInfo(input) {
 }
 
 //"spotify-this-song" function
-function spotInfo(songName) {
+function spotifyinfo(songName) {
   var spotify = new Spotify(keys.spotify);
 
   //If no song is provided, use "The Sign"
@@ -80,7 +80,7 @@ function spotInfo(songName) {
       "Artist: " + data.tracks.items[0].artists[0].name,
       "Song name: " + data.tracks.items[0].name,
       "Album Name: " + data.tracks.items[0].album.name,
-      "Preview Link: " + data.tracks.items[0].preview_url
+      "Preview Link: " + data.tracks.items[0].preview_url,
     ].join("\n\n");
     fs.appendFile("log.txt", songInfo + divider, function(err) {
       if (err) throw err;
@@ -90,7 +90,7 @@ function spotInfo(songName) {
 }
 
 //"movie-this" function
-function movInfo(movieName) {
+function movieinfo(movieName) {
   
     //If no movie is provided, use "Mr. Nobody" 
   if (!movieName) {
@@ -122,7 +122,7 @@ function movInfo(movieName) {
 }
 
 // User Input
-function doThis() {
+function dothis() {
 	fs.readFile('random.txt', "utf8", function(error, data){
 
 		if (error) {
@@ -133,13 +133,13 @@ function doThis() {
 		// If statement used to loop through the commands that might be present in random.txt
 		if (dataArr[0] === "spotify-this-song") {
 			var songcheck = dataArr[1].slice(1, -1);
-			spotInfo(songcheck);
+			spotifyinfo(songcheck);
 		} else if (dataArr[0] === "concert-this") {
 			var concert = dataArr[1].slice(1, -1);
-			conInfo(concert);
+			concertinfo(concert);
 		} else if(dataArr[0] === "movie-this") {
 			var listing = dataArr[1].slice(1, -1);
-			movInfo(listing);
+			movieinfo(listing);
 		} 
 		
   	});
